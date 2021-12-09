@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: coupon
+  namespace: default
+  labels:
+    app: app-service 
+    version: 1.0.0
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: coupon
+  template:
+    metadata:
+      labels:
+        app: coupon
+    spec:
+      containers:
+      - name: coupon
+        image: gcr.io/c0a6583d3e5d/coupon:1.0.0
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+          protocol: TCP
+        resources:
+          requests:
+            cpu: 100m
+            memory: 1024Mi
+          limits:
+            cpu: 200m
+            memory: 2048Mi
+         
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: coupon
+  namespace: default
+  labels:
+    app: app-service 
+spec:
+  type: LoadBalancer
+  selector:
+    app: coupon 
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+     
+---
+# Must be authorized by GKE team
+apiVersion: autoscaling/v2beta2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: coupon
+  namespace: default
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name:  coupon
+  minReplicas: 1
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+---

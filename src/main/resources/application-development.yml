@@ -1,0 +1,21 @@
+logging:
+  config: /config/logback-spring.xml
+server:
+  port: 8080
+  session:
+    cookie:
+      name: UISESSION
+management:
+  endpoints:
+    web.exposure.include: 'metrics'
+  security:
+    enabled: false
+application:
+  meli:
+    url: 'https://api.mercadolibre.com'
+    items-path: '/items/'
+  # --- Cache --- # 
+  clear:
+    cache:
+      fixedRate: 3600000
+      initDelay: 1000
