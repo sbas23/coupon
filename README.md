@@ -3,8 +3,8 @@
 Esto servicio cuenta con un  API que dado una lista de item_id de mercado libre y el monto total del cupon que otorga la organizacion, retorna la lista de items que maximiza el total gastado sin excederlo.
 
 ## Instalacion usando Docker
-Puede descargar el codigo fuente desde el repositorio de GitLab con el siguiente comando:
-> git clone https://gitlab.com/sbas23/coupon.git
+Puede descargar el codigo fuente desde el repositorio de GitHub con el siguiente comando:
+> git clone https://github.com/sbas23/coupon.git
 
 En la raiz del proyecto existe un archivo DockerFile con el siguiente contenido:
 
